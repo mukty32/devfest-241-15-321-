@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Escape - Evacuation Simulator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans">
+
+  <!-- Header -->
+  <header class="bg-slate-800 border-b border-slate-700 p-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold tracking-wide" id="app-title">Smart Escape Simulator</h1>
+    <div class="flex gap-3">
+      <button id="lang-btn" class="bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded text-sm font-semibold">
+        বাংলা
+      </button>
+      <button id="reset-btn" class="bg-amber-600 hover:bg-amber-500 px-3 py-1.5 rounded text-sm font-semibold">
+        Reset Hazards
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Grid -->
+  <main class="flex-1 grid grid-cols-1 lg:grid-cols-4 gap-4 p-4">
+    <!-- Controls Sidebar -->
+    <aside class="bg-slate-800 p-4 rounded-lg border border-slate-700 flex flex-col gap-4">
+      <div>
+        <label id="start-label" class="block text-sm font-medium mb-1">Select Start Node:</label>
+        <select id="start-select" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"></select>
+      </div>
+
+      <div class="border-t border-slate-700 pt-3">
+        <label id="upload-label" class="block text-sm font-medium mb-1">Import Custom JSON:</label>
+        <input type="file" id="json-input" accept=".json" class="text-xs text-slate-400 file:mr-2 file:py-1 file:px-2 file:rounded file:bg-slate-700 file:text-white hover:file:bg-slate-600"/>
+      </div>
+
+      <!-- Route Info Output Banner -->
+      <div id="status-banner" class="bg-slate-900 p-3 rounded border border-slate-700 mt-auto">
+        <div id="status-title" class="font-semibold text-indigo-400">Status</div>
+        <div id="status-details" class="text-sm mt-1 text-slate-300">Select a start location.</div>
+      </div>
+    </aside>
+
+    <!-- Map Canvas (SVG) -->
+    <section class="lg:col-span-3 bg-slate-950 rounded-lg border border-slate-800 relative flex items-center justify-center min-h-[500px]">
+      <svg id="map-svg" class="w-full h-full min-h-[500px]"></svg>
+    </section>
+  </main>
+
+  <script src="src/app.js"></script>
+</body>
+</html>

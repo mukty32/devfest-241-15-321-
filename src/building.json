@@ -1,14 +1,14 @@
 {
   "building": "Main Office - Floor 1",
   "nodes": [
-    { "id": "R1", "label": "Room 1", "type": "room", "x": 100, "y": 100 },
-    { "id": "R2", "label": "Room 2", "type": "room", "x": 100, "y": 300 },
-    { "id": "C1", "label": "Corridor 1", "type": "junction", "x": 300, "y": 100 },
-    { "id": "C2", "label": "Corridor 2", "type": "junction", "x": 500, "y": 100 },
-    { "id": "C3", "label": "Corridor 3", "type": "junction", "x": 300, "y": 300 },
-    { "id": "C4", "label": "Corridor 4", "type": "junction", "x": 500, "y": 300 },
-    { "id": "E1", "label": "Exit 1", "type": "exit", "x": 700, "y": 100 },
-    { "id": "E2", "label": "Exit 2", "type": "exit", "x": 700, "y": 300 }
+    { "id": "R1", "label": "Room 1", "type": "room", "x": 100, "y": 150 },
+    { "id": "R2", "label": "Room 2", "type": "room", "x": 100, "y": 400 },
+    { "id": "C1", "label": "Corridor 1", "type": "junction", "x": 300, "y": 150 },
+    { "id": "C2", "label": "Corridor 2", "type": "junction", "x": 550, "y": 150 },
+    { "id": "C3", "label": "Corridor 3", "type": "junction", "x": 300, "y": 400 },
+    { "id": "C4", "label": "Corridor 4", "type": "junction", "x": 550, "y": 400 },
+    { "id": "E1", "label": "Exit 1", "type": "exit", "x": 750, "y": 150 },
+    { "id": "E2", "label": "Exit 2", "type": "exit", "x": 750, "y": 400 }
   ],
   "edges": [
     { "id": "e1", "from": "R1", "to": "C1", "cost": 2 },

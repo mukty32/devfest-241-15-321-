@@ -1,50 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart Escape - Evacuation Simulator</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              500: '#0284c7',
+              600: '#0369a1',
+              900: '#0c4a6e',
+            }
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans">
+<body class="bg-slate-900 text-slate-100 min-h-full flex flex-col font-sans antialiased transition-colors duration-200" id="app-body">
 
   <!-- Header -->
-  <header class="bg-slate-800 border-b border-slate-700 p-4 flex justify-between items-center">
-    <h1 class="text-xl font-bold tracking-wide" id="app-title">Smart Escape Simulator</h1>
-    <div class="flex gap-3">
-      <button id="lang-btn" class="bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded text-sm font-semibold">
+  <header class="bg-slate-800/90 backdrop-blur border-b border-slate-700/80 sticky top-0 z-50 px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+    <div class="flex items-center gap-3">
+      <div class="p-2 bg-indigo-600 rounded-lg text-white font-bold text-xl shadow-lg shadow-indigo-500/30">
+        🚨
+      </div>
+      <div>
+        <h1 class="text-xl font-bold tracking-wide text-white" id="app-title">Smart Escape Simulator</h1>
+        <p class="text-xs text-slate-400" id="app-subtitle">Interactive Evacuation Route Planner</p>
+      </div>
+    </div>
+
+    <!-- Actions Bar -->
+    <div class="flex items-center gap-2 flex-wrap">
+      <button id="lang-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition">
         বাংলা
       </button>
-      <button id="reset-btn" class="bg-amber-600 hover:bg-amber-500 px-3 py-1.5 rounded text-sm font-semibold">
-        Reset Hazards
+      <button id="contrast-btn" class="bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-1.5 rounded-lg text-sm font-semibold transition">
+        👁️ High Contrast
+      </button>
+
+      <button id="export-png-btn" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition flex items-center gap-1">
+        📸 <span id="export-btn-text">Export PNG</span>
+      </button>
+
+      <button id="reset-btn" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition flex items-center gap-1">
+        🔄 <span id="reset-btn-text">Reset Hazards</span>
       </button>
     </div>
   </header>
 
-  <!-- Main Grid -->
+  <!-- Main Body Grid -->
   <main class="flex-1 grid grid-cols-1 lg:grid-cols-4 gap-4 p-4">
-    <!-- Controls Sidebar -->
-    <aside class="bg-slate-800 p-4 rounded-lg border border-slate-700 flex flex-col gap-4">
+    <!-- Sidebar Controls -->
+    <aside class="bg-slate-800/60 backdrop-blur p-4 rounded-xl border border-slate-700/60 flex flex-col gap-4 shadow-xl">
+      
+      <!-- Start Location Selector -->
       <div>
-        <label id="start-label" class="block text-sm font-medium mb-1">Select Start Node:</label>
-        <select id="start-select" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"></select>
+        <label id="start-label" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Select Start Location:</label>
+        <select id="start-select" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:ring-2 focus:ring-indigo-500 outline-none transition"></select>
       </div>
 
-      <div class="border-t border-slate-700 pt-3">
-        <label id="upload-label" class="block text-sm font-medium mb-1">Import Custom JSON:</label>
-        <input type="file" id="json-input" accept=".json" class="text-xs text-slate-400 file:mr-2 file:py-1 file:px-2 file:rounded file:bg-slate-700 file:text-white hover:file:bg-slate-600"/>
+      <!-- Walkthrough Controller (Bonus Feature) -->
+      <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-700">
+        <label id="walkthrough-label" class="block text-xs font-semibold text-slate-400 mb-2">Route Walkthrough:</label>
+        <div class="flex items-center gap-2">
+          <button id="play-anim-btn" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold py-2 px-3 rounded text-white transition">
+            ▶️ <span id="play-anim-text">Play Walkthrough</span>
+          </button>
+        </div>
       </div>
 
-      <!-- Route Info Output Banner -->
-      <div id="status-banner" class="bg-slate-900 p-3 rounded border border-slate-700 mt-auto">
-        <div id="status-title" class="font-semibold text-indigo-400">Status</div>
-        <div id="status-details" class="text-sm mt-1 text-slate-300">Select a start location.</div>
+      <!-- JSON File Upload -->
+      <div class="border-t border-slate-700/80 pt-3">
+        <label id="upload-label" class="block text-xs font-semibold text-slate-400 mb-1">Import Custom Graph (JSON):</label>
+        <input type="file" id="json-input" accept=".json" class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-slate-700 file:text-white hover:file:bg-slate-600 cursor-pointer"/>
+      </div>
+
+      <!-- Interactive Instructions -->
+      <div class="bg-slate-900/50 p-3 rounded-lg text-xs text-slate-400 border border-slate-800 space-y-1">
+        <div class="font-bold text-slate-300" id="guide-title">Quick Guide:</div>
+        <p id="guide-node">• Click any Node/Exit to block or open it.</p>
+        <p id="guide-edge">• Click any Corridor to block or restore it.</p>
+      </div>
+
+      <!-- Status & Output Banner -->
+      <div id="status-banner" class="bg-slate-900 p-4 rounded-lg border border-slate-700/80 mt-auto shadow-inner">
+        <div id="status-title" class="text-xs font-bold uppercase tracking-wider text-slate-400">Status</div>
+        <div id="status-details" class="text-sm mt-1">Select a start location.</div>
+        <!-- Alternative Routes Section -->
+        <div id="alt-routes-container" class="mt-3 pt-2 border-t border-slate-800 text-xs hidden">
+          <div class="text-slate-400 font-semibold mb-1" id="alt-routes-title">Alternative Routes:</div>
+          <div id="alt-routes-list" class="space-y-1 text-slate-300"></div>
+        </div>
       </div>
     </aside>
 
-    <!-- Map Canvas (SVG) -->
-    <section class="lg:col-span-3 bg-slate-950 rounded-lg border border-slate-800 relative flex items-center justify-center min-h-[500px]">
-      <svg id="map-svg" class="w-full h-full min-h-[500px]"></svg>
+    <!-- Map Canvas Section -->
+    <section class="lg:col-span-3 bg-slate-950 rounded-xl border border-slate-800 relative flex items-center justify-center p-2 min-h-[550px] shadow-2xl overflow-hidden">
+      <svg id="map-svg" class="w-full h-full min-h-[550px] select-none"></svg>
     </section>
   </main>
 
